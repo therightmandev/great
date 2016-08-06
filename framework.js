@@ -101,52 +101,71 @@ gravityOn = false;
 gravityAcc = 0.3;
 
 function addAnchor(obj, x, y) {
-	obj.anchor = {x: x, y: y};
+	obj.anchor = vector(x, y);
 }
 
 function addPos(obj, x, y) {
 	if (!obj.anchor) {
-		obj.pos = {x: x, y: y};
+		obj.pos = vector(x, y);
 	} else {
-		obj.pos = {
-			x: x - obj.anchor['x'],
-			y: y - obj.anchor['y']
-		}
+		obj.pos = vector(x - obj.anchor.x, y - obj.anchor.y);
 	}
 
 	obj.newPos = function (x, y) {
 		if (!this.anchor) {
-			this.pos['x'] = x;
-			this.pos['y'] = y;
-			this.pos = {
-				x: x,
-				y: y
-			}
+			this.pos.x = x;
+			this.pos.y = y;
 		} else {
-			this.pos = {
-				x: x - this.anchor['x'],
-				y: y - this.anchor['y']
-			}
+			this.pos.x = x - this.anchor.x;
+			this.pos.y = y - this.anchor.y;
 		}
 	}
 }
 
-function addVel(obj, x, y) {
-	obj.vel = {x: x, y: y}
-}
-
 function addPhysics(obj) {
 	withPhysics.push(obj);
-
-	if (!obj.pos) {
-		obj.pos = {x: 0, y: 0};
+	if(!obj.pos){
+		obj.pos = vector();
 	}
-	if (!obj.vel) {
-		obj.vel = {x: 0, y: 0};
+	if(!obj.vel){
+		obj.vel = vector();
 	}
 }
 
 function gravity(value) {
 	gravityAcc = value;
+}
+
+//geometry:
+function vector(x, y) {
+	return new Vector(x, y);
+}
+
+function Vector(x, y) {
+	if (x && y) {
+		this.x = x;
+		this.y = y;
+	} else {
+		this.x = 0;
+		this.y = 0;
+	}
+
+	this.norm = function() {
+		norm = Math.sqrt(this.x*this.x + this.y*this.y);
+		return norm;
+	}
+
+	this.add = function (anotherVector) {
+		sum = new Vector(this.x + anotherVector.x, this.y + anotherVector.y);
+		return sum;
+	}
+}
+
+function dist(vect1, vect2) {
+	tempVect = vector(
+		vect1.x - vect2.x,
+		vect1.y - vect2.y
+		);
+	return tempVect.norm();
 }
 

@@ -1,5 +1,5 @@
 function Rocket() {
-	this.width = 40;
+	this.width = 10;
 	this.height = 40;
 	this.color = "red";
 
