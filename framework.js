@@ -1,8 +1,8 @@
 //canvas functions:
 canvas = document.createElement('canvas');
-canvas.width = 500;
-canvas.height = 500;
-canvas.style.backgroundColor = "black";
+canvas.width = 400;
+canvas.height = 300;
+canvas.style.backgroundColor = "#eee";
 document.body.appendChild(canvas);
 ctx = canvas.getContext('2d');
 ctx.fillStyle = "red";
@@ -17,6 +17,12 @@ function line(x1, y1, x2, y2) {
 	ctx.beginPath();
 	ctx.moveTo(x1, y1);
 	ctx.lineTo(x2, y2);
+	ctx.stroke();
+}
+
+function ellipse(x, y, r1, r2) {
+	ctx.beginPath();
+	ctx.ellipse(x, y, r1, r2, 0, 0, Math.PI*2);
 	ctx.stroke();
 }
 
@@ -97,52 +103,28 @@ function keyUpHandler(e) {
 
 //object plugins:
 withPhysics = [];
-gravityOn = false;
-gravityAcc = 0.3;
 
 function addAnchor(obj, x, y) {
 	obj.anchor = vector(x, y);
 }
 
-function addPos(obj, x, y) {
-	if (!obj.anchor) {
-		obj.pos = vector(x, y);
-	} else {
-		obj.pos = vector(x - obj.anchor.x, y - obj.anchor.y);
-	}
-
-	obj.newPos = function (x, y) {
-		if (!this.anchor) {
-			this.pos.x = x;
-			this.pos.y = y;
-		} else {
-			this.pos.x = x - this.anchor.x;
-			this.pos.y = y - this.anchor.y;
-		}
-	}
-}
-
-function addPhysics(obj) {
-	withPhysics.push(obj);
-	if(!obj.pos){
-		obj.pos = vector();
-	}
-	if(!obj.vel){
-		obj.vel = vector();
-	}
-}
-
-function gravity(value) {
-	gravityAcc = value;
-}
 
 //geometry:
 function vector(x, y) {
 	return new Vector(x, y);
 }
 
+function randomVector() {
+	//create a random vector with norm = 1
+	angle = Math.random() * Math.PI*2;
+	x = Math.cos(angle);
+	y = Math.sin(angle);
+	return new Vector(x, y);
+
+}
+
 function Vector(x, y) {
-	if (x && y) {
+	if (x!=undefined && y!=undefined) {
 		this.x = x;
 		this.y = y;
 	} else {
@@ -155,9 +137,14 @@ function Vector(x, y) {
 		return norm;
 	}
 
+	this.angle = function() {
+		angle = Math.atan2(this.y, this.x);
+		return angle;
+	}
+
 	this.add = function (anotherVector) {
-		sum = new Vector(this.x + anotherVector.x, this.y + anotherVector.y);
-		return sum;
+		this.x += anotherVector.x;
+		this.y += anotherVector.y;
 	}
 }
 
