@@ -105,7 +105,7 @@ function DNA (genes) {
 
 function Population() {
 	this.rockets = [];
-	this.popsize = 100;
+	this.popsize = 10;
 	this.matingPool = [];
 
 	for (r=0; r<this.popsize; r++) {
