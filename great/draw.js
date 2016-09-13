@@ -11,8 +11,6 @@ ctx.strokeStyle = "green";
 function newCanvas(width, height) {
 	canvas.width = width;
 	canvas.height = height;
-	ctx.fillStyle = "red";
-	ctx.strokeStyle = "red";
 }
 
 function rect(x, y, width, height, noFill, stroke) {
@@ -47,6 +45,10 @@ function ellipse(x, y, r1, r2, noFill, stroke) {
 	}
 }
 
+function write(text, x, y) {
+	ctx.fillText(text, x, y);
+}
+
 function clear() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
@@ -57,6 +59,10 @@ function backgroundColor(color) {
 
 function fillColor(color) {
 	ctx.fillStyle = color;
+}
+
+function font(style) {
+	ctx.font = style;
 }
 
 function strokeColor(color) {

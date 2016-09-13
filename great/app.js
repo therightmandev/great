@@ -5,6 +5,17 @@ window.onload = function() {
 		function gameLoop() {
 			draw();
 			update();
+
+			mousemove = false;
+			spaceup = false;
+			spacedown = false;
+			spaceok = true;
+			rightdown = false;
+			rightup = false;
+			rightok = true;
+			leftdown = false;
+			leftup = false;
+			leftok = true;
 			requestAnimationFrame(gameLoop);
 		}
 		setup();
